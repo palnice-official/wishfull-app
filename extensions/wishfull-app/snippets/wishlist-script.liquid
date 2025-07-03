@@ -1,0 +1,62 @@
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('whishfull', () => ({
+      init() {
+        fetch(
+          this.appUrl +
+            '/api/wishfull' +
+            '?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}'
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.data.length > 0) {
+              this.wishlisted = true;
+            }
+          })
+          .catch(error => console.log('error', error))
+      },
+        wishlisted: false,
+        appUrl : "https://incl-anxiety-leaves-consecutive.trycloudflare.com",
+
+        addToWishlist() {
+          {% unless customer %}
+            alert('Please login to add to wishlist');
+            return;
+          {% endunless %}
+
+          let formData = new FormData();
+          formData.append("customerId", "{{ customer.id }}")
+          formData.append("productId", "{{ product.id }}")
+          formData.append("shop", "{{ shop.permanent_domain }}")
+          formData.append("_action", "CREATE")
+
+          if(this.wishlisted){
+            this.wishlisted = false
+            formData.set("_action", "DELETE")
+          }
+
+          let requestOptions = {
+            method: 'POST',
+            body: formData,
+            redirect: 'follow'
+          };
+
+          fetch(this.appUrl + "/api/wishfull", requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            if(result.wishlisted){
+              this.wishlisted = true;
+            }else{
+              this.wishlisted = false
+            }
+          })
+          .catch(error => console.log('error',error))
+
+
+        }
+
+    }));
+  });
+</script>

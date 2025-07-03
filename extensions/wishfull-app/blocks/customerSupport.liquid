@@ -1,0 +1,46 @@
+<button class="{{ block.settings.class }}" 
+    style="padding: {{ block.settings.padding }}; 
+    margin: {{ block.settings.margin}};
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
+    width: 150px;
+    height: 150px
+
+    ">
+
+    Chat With Us
+
+</button>
+
+
+{% schema %}
+{
+  "name": "Customer Support",
+  "target": "body",
+  "settings": [
+    {
+      "type": "text",
+      "id": "class",
+      "label": "Class",
+      "default": "button"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "padding",
+      "default": "10px 5px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "10px 10px"
+    }
+  ]
+}
+{% endschema %}
